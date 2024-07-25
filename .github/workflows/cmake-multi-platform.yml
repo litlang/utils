@@ -1,0 +1,99 @@
+name: CMake on multiple platforms
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  linux-x86-64:
+    runs-on: ubuntu-latest
+    steps:
+    - name: checkout
+      uses: actions/checkout@v3
+
+    - name: build
+      run: >
+        cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=dist .;
+        make install;
+
+    - name: Upload Artifacts - ranges
+      uses: actions/upload-artifact@v4
+      with:
+        name: ranges-linux-x86-64-release
+        path: dist/ranges/*
+
+    - name: Upload Artifacts - trie
+      uses: actions/upload-artifact@v4
+      with:
+        name: trie-linux-x86-64-release
+        path: dist/trie/*
+
+  windows-x86-64:
+    runs-on: windows-latest
+    steps:
+    - name: checkout
+      uses: actions/checkout@v3
+
+    - name: build
+      run: >
+        cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=dist -G "Unix Makefiles" .;
+        make install;
+
+    - name: Upload Artifacts - ranges
+      uses: actions/upload-artifact@v4
+      with:
+        name: ranges-windows-x86-64-release
+        path: dist/ranges/*
+
+    - name: Upload Artifacts - trie
+      uses: actions/upload-artifact@v4
+      with:
+        name: trie-windows-x86-64-release
+        path: dist/trie/*
+
+  macos-x86-64:
+    runs-on: macos-13
+    steps:
+    - name: checkout
+      uses: actions/checkout@v3
+
+    - name: build
+      run: >
+        cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=dist .;
+        make install;
+
+    - name: Upload Artifacts - ranges
+      uses: actions/upload-artifact@v4
+      with:
+        name: ranges-macos-x86-64-release
+        path: dist/ranges/*
+
+    - name: Upload Artifacts - trie
+      uses: actions/upload-artifact@v4
+      with:
+        name: trie-macos-x86-64-release
+        path: dist/trie/*
+
+  macos-arm-64:
+    runs-on: macos-latest
+    steps:
+    - name: checkout
+      uses: actions/checkout@v3
+
+    - name: build
+      run: >
+        cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=dist .;
+        make install;
+
+    - name: Upload Artifacts - ranges
+      uses: actions/upload-artifact@v4
+      with:
+        name: ranges-macos-arm-64-release
+        path: dist/ranges/*
+
+    - name: Upload Artifacts - trie
+      uses: actions/upload-artifact@v4
+      with:
+        name: trie-macos-arm-64-release
+        path: dist/trie/*
