@@ -18,6 +18,21 @@ public:
 		return this->_search(src, index, i, replace_list);
 	}
 
+	bool has(wchar_t c) {
+		if (this->children.find(c) != this->children.end()) {
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
+
+	trie<T>* get(wchar_t c) {
+		return this->children[c]; // check exsits
+	}
+
+	std::shared_ptr<T> val;
+
 	/*
 	void view(int indent) {
 		if (this->val) {
@@ -35,7 +50,6 @@ public:
 	*/
 
 private:
-	std::shared_ptr<T> val;
 	std::map<wchar_t, trie<T>* > children;
 
 	void add(std::wstring key, T val) {
